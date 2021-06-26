@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Signup } from "./Authentication/Signup";
+import { Login } from "./Authentication/Login";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 const App = () => {
   const [data, setData] = useState("");
@@ -20,7 +22,18 @@ const App = () => {
   };
   return (
     <div className="app">
-      <Signup />
+      <Router>
+        <div>
+          <Switch>
+            <Route path="/signup">
+              <Signup />
+            </Route>
+            <Route path="/login">
+              <Login />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
       {data}
     </div>
   );
