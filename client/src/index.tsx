@@ -1,11 +1,12 @@
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
+import {Loading} from './components/resueable/Loading';
 const App = React.lazy(() => import("./components/App"));
 
 const MyApp = () => {
   return (
     <div>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loading/>}>
         <App />
       </Suspense>
     </div>

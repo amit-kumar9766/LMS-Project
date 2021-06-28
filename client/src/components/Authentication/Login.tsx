@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Container,
   FormControlLabel,
@@ -10,10 +9,25 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import { useState } from "react";
+import axios from "axios";
+import { Email } from "@material-ui/icons";
 
-export const Login = () => {
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
+export const Login =React.memo(() => {
+  const [name, setName] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const handleLogin = async (event: any) => {
+    event.preventDefault();
+    let loginObj = { email: name, password: password };
+    try {
+      const response = await axios.post(`http://localhost:5000/user`, loginObj);
+      if (response?.data) {
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <>
       <Container>
@@ -28,23 +42,31 @@ export const Login = () => {
           label="First Name"
           name="firstName"
           autoComplete="fname"
-          onChange={(e)=>setName(e.target.value)}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         ></TextField>
-
         <TextField
           variant="outlined"
           required
           fullWidth
-          id="lastName"
-          label="Last Name"
-          name="lastName"
-          autoComplete="lname"
-        ></TextField>
-
-        <Button type="submit" fullWidth variant="contained" color="primary">
+          name="password"
+          label="Password"
+          type="password"
+          id="password"
+          value={password}
+          autoComplete="current-password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          onClick={(e) => handleLogin(e)}
+        >
           Log In
         </Button>
       </Container>
     </>
   );
-};
+});

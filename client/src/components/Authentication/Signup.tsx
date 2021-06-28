@@ -9,40 +9,27 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { useState } from "react";
-import styled from "styled-components";
-import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
-
-const useStyles = makeStyles((theme) => ({
-  "@global": {
-    body: {
-      backgroundColor: theme.palette.common.white,
-    },
-  },
-  paper: {
-    marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
+import axios from "axios";
 
 export const Signup = () => {
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+
+  const handleSignUp = async (e: any) => {
+    e.preventDefault();
+    let loginObj = { email: name, password: password };
+    try {
+      const response = await axios.post(`http://localhost:5000/user`, loginObj);
+      if (response?.data) {
+        //redirect to login 
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <Container>
       <div>
@@ -54,25 +41,15 @@ export const Signup = () => {
             <Grid item xs={12} sm={6}>
               <TextField
                 autoComplete="fname"
-                name="firstName"
+                name="name"
                 variant="outlined"
                 required
                 fullWidth
                 id="firstName"
-                label="First Name"
+                label=" Name"
+                value={name}
                 autoFocus
                 onChange={(e) => setName(e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
               />
             </Grid>
             <Grid item xs={12}>
@@ -84,6 +61,7 @@ export const Signup = () => {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </Grid>
@@ -96,18 +74,19 @@ export const Signup = () => {
                 label="Password"
                 type="password"
                 id="password"
+                value={password}
                 autoComplete="current-password"
                 onChange={(e) => setPassword(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
-              />
-            </Grid>
           </Grid>
-          <Button type="submit" fullWidth variant="contained" color="primary">
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={handleSignUp}
+          >
             Sign Up
           </Button>
           <Grid container justify="flex-end">
