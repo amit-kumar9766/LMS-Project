@@ -1,13 +1,8 @@
-import React, { useReducer, createContext, useContext } from "react";
+import React, { useReducer, useContext } from "react";
 import { auth } from "../reducers/auth";
-import {authInitialState} from "../initialStates/authInitialState";
+import { authInitialState } from "../initialStates/authInitialState";
 
 const contextStore = React.createContext({});
-const initialState = {
-  isAuth: false,
-  username: "",
-  token: "",
-};
 
 export const ContextProvider = (props: any) => {
   const [authState, authDispatch] = useReducer(auth, authInitialState);

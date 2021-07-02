@@ -50,30 +50,34 @@ export const Login = React.memo(() => {
         <Typography component="h1" variant="h5" className={classes.title}>
           Log In
         </Typography>
-        <Box className={classes.grid}>
-          <TextField
-            variant="outlined"
-            required
-            fullWidth
-            id="email"
-            label="Email"
-            name="email"
-            autoComplete="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          ></TextField>
-          <TextField
-            variant="outlined"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            value={password}
-            autoComplete="current-password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
+        <Box>
+          <Box className={classes.grid}>
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              id="email"
+              label="Email"
+              name="email"
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            ></TextField>
+          </Box>
+          <Box className={classes.grid}>
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              value={password}
+              autoComplete="current-password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Box>
         </Box>
         <Button
           type="submit"

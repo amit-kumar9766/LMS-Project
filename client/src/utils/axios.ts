@@ -1,4 +1,28 @@
-import axios from 'axios';
+import axios from "axios";
+
+axios.defaults.baseURL = window.location.origin;
+
+axios.interceptors.response.use(
+  (response) => {
+    if (response.status === 302) {
+      window.location.href = "/logout";
+    }
+    return response;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+axios.interceptors.request.use(
+  (config) => {
+    //config.headers["X-CSRFToken"] = getCookie("csrftoken");
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 const GET = (url: string, options?: any) => {
   return axios.get(url, options);
