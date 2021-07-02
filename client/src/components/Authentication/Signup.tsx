@@ -11,41 +11,65 @@ import {
 import React, { useState } from "react";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
+import { useStore } from "../../context/contextStore/index";
 import axios from "axios";
 
+const useStyles = makeStyles({
+  title: {
+    paddingTop: "2rem",
+    paddingBottom: "1rem",
+  },
+  grid: {
+    paddingBottom: "1rem",
+  },
+});
+
 export const Signup = () => {
+  const classes = useStyles();
+  const { state, dispatch }: any = useStore();
   const [name, setName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
 
   const handleSignUp = async (e: any) => {
     e.preventDefault();
-    let loginObj = { email: name, password: password };
+    let signObj = {
+      name: name,
+      email: email,
+      password: password,
+      passwordConfirmation: passwordConfirmation,
+    };
     try {
-      const response = await axios.post(`http://localhost:5000/user`, loginObj);
-      if (response?.data) {
-        //redirect to login 
+      const response = await axios.post(
+        `http://localhost:5000/api/auth/signup`,
+        signObj
+      );
+      if (response?.status === 200) {
+        //redirect to login
       }
     } catch (err) {
       console.log(err);
+      //dispatch alert
     }
   };
+
   return (
-    <Container>
-      <div>
-        <Typography component="h1" variant="h5">
+    <Container maxWidth="sm">
+      <Box>
+        <Typography component="h2" variant="h5" className={classes.title}>
           Sign up
         </Typography>
-        <form noValidate>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+        <form onSubmit={handleSignUp}>
+          <Grid container spacing={2} className={classes.grid}>
+            <Grid item xs={12}>
               <TextField
                 autoComplete="fname"
                 name="name"
                 variant="outlined"
                 required
                 fullWidth
-                id="firstName"
+                id="name"
                 label=" Name"
                 value={name}
                 autoFocus
@@ -79,14 +103,22 @@ export const Signup = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </Grid>
+            <Grid item xs={12}>
+              <TextField
+                autoComplete="fname"
+                name="passwordConfirmation"
+                variant="outlined"
+                required
+                fullWidth
+                id="passwordConfirmation"
+                label="passwordConfirmation"
+                value={passwordConfirmation}
+                autoFocus
+                onChange={(e) => setPasswordConfirmation(e.target.value)}
+              />
+            </Grid>
           </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            onClick={handleSignUp}
-          >
+          <Button type="submit" fullWidth variant="contained" color="primary">
             Sign Up
           </Button>
           <Grid container justify="flex-end">
@@ -97,7 +129,7 @@ export const Signup = () => {
             </Grid>
           </Grid>
         </form>
-      </div>
+      </Box>
     </Container>
   );
 };

@@ -4,8 +4,10 @@ const bcrypt = require("bcrypt");
 const { createJWT } = require("../utils/auth");
 const middleware = require('../utils/auth')
 
-exports.signUp = async () => {
-  let { name, email, password, passwordConfirmation } = req.body;
+//Do I need validation like JOI or we should do it in the frontend or we can put in the mongoose everything?
+
+exports.signUp = async (req, res) => {
+  const { name, email, password, passwordConfirmation } = req.body;
   try {
     const user = await User.findOne({ email: email });
     if (user) {
@@ -19,14 +21,15 @@ exports.signUp = async () => {
       const salt = await bcrypt.genSalt(10);
       user.password = await bcrypt.hash(password, salt); //does it returns promise?
       await user.save(); //-->do I have to write special catch functions for all?
+      res.status(200).json('user created')
     }
   } catch (err) {
     console.log(err);
   }
 };
 
-exports.logIn =async () => {
-  let { email, password } = req.body;
+exports.logIn = async (req, res) => {
+  const { email, password } = req.body;
   try {
     const user = await User.findOne({ email: email });
     if (!user) {
@@ -38,18 +41,6 @@ exports.logIn =async () => {
         res.status(200).json({ token: access_token });
       }
     }
-    //   try {
-    //     var decoded = jwt.verify(access_token, process.env.TOKEN_SECRET);
-    //     if (decoded) {
-    //       return res.status(200).json({
-    //         success: true,
-    //         token: access_token,
-    //         message: user,
-    //       });
-    //     }
-    //   } catch (err) {
-    //     res.status(500).json({ erros: err });
-    //   }
   } catch (err) {
     console.log(err);
   }

@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export const Loading= React.memo(() => {
+export const Loading = React.memo(() => {
   const classes = useStyles();
 
   return (
