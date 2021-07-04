@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const { createJWT } = require("../utils/auth");
 const middleware = require('../utils/auth')
 
-//Do I need validation like JOI or we should do it in the frontend or we can put in the mongoose everything?
+//Do I need validation like JOI/Frontend or we should do it in the frontend or we can put in the mongoose everything?
 
 exports.signUp = async (req, res) => {
   const { name, email, password, passwordConfirmation } = req.body;
@@ -25,6 +25,7 @@ exports.signUp = async (req, res) => {
     }
   } catch (err) {
     console.log(err);
+    //500->response status
   }
 };
 

@@ -9,7 +9,7 @@ const routes = [
     needsAuth: false,
   },
   {
-    path: "/login", //->login component  why writing /auth/login is a problem
+    path: "/login", 
     component: Login,
     title: "Login",
     needsAuth: false,

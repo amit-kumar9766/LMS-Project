@@ -15,7 +15,6 @@ const useStyles = makeStyles({
 });
 
 export const NavBar = React.memo(({ history }: any) => {
-  console.log(history);//why undefined
   const classes = useStyles();
   return (
     <AppBar position="static">

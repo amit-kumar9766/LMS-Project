@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   Container,
-  FormControlLabel,
   makeStyles,
   Paper,
   TextField,
@@ -30,6 +29,7 @@ export const Signup = () => {
   const [name, setName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const [disabled, setDisabled] = useState<boolean>(false);
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
 
   const handleSignUp = async (e: any) => {
@@ -41,6 +41,7 @@ export const Signup = () => {
       passwordConfirmation: passwordConfirmation,
     };
     try {
+      setDisabled(true);
       const response = await axios.post(
         `http://localhost:5000/api/auth/signup`,
         signObj
@@ -50,7 +51,9 @@ export const Signup = () => {
       }
     } catch (err) {
       console.log(err);
-      //dispatch alert
+      //dispatch here
+    } finally {
+      setDisabled(false);
     }
   };
 
@@ -112,13 +115,21 @@ export const Signup = () => {
                 fullWidth
                 id="passwordConfirmation"
                 label="passwordConfirmation"
+                type="password"
                 value={passwordConfirmation}
                 autoFocus
+                error={password !== passwordConfirmation}
                 onChange={(e) => setPasswordConfirmation(e.target.value)}
               />
             </Grid>
           </Grid>
-          <Button type="submit" fullWidth variant="contained" color="primary">
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            disabled={disabled}
+          >
             Sign Up
           </Button>
           <Grid container justify="flex-end">

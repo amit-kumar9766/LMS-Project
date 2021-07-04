@@ -26,6 +26,7 @@ const useStyles = makeStyles({
 export const Login = React.memo(() => {
   const classes = useStyles();
   const { state, dispatch }: any = useStore();
+  const [disabled, setDisabled] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -33,6 +34,7 @@ export const Login = React.memo(() => {
     event.preventDefault();
     let loginObj = { email: email, password: password };
     try {
+      setDisabled(true);
       const response = await axios.post(
         `http://localhost:5000/api/auth/signin`,
         loginObj
@@ -41,6 +43,8 @@ export const Login = React.memo(() => {
       }
     } catch (err) {
       console.log(err);
+    } finally {
+      setDisabled(false);
     }
   };
 
@@ -85,6 +89,7 @@ export const Login = React.memo(() => {
           variant="contained"
           color="primary"
           onClick={(e) => handleLogin(e)}
+          disabled={disabled}
         >
           Log In
         </Button>

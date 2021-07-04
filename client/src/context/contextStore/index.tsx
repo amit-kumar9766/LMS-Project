@@ -16,3 +16,6 @@ export const ContextProvider = (props: any) => {
 };
 
 export const useStore = () => useContext(contextStore);
+
+//action import-> data provider factory -> dispatch actions
+//useCallback-> memoiztation -> functions  // component->useMemo
