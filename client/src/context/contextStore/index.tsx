@@ -1,21 +1,27 @@
-import React, { useReducer, useContext } from "react";
-import { auth } from "../reducers/auth";
-import { authInitialState } from "../initialStates/authInitialState";
+import React, { useReducer, useContext } from 'react'
+import { auth } from '../reducers/auth'
+import { loadingReducer } from '../reducers/loadingReducer'
+import { authInitialState } from '../initialStates/authInitialState'
 
-const contextStore = React.createContext({});
+const loadingInitialState = {
+  loading: false,
+}
+
+const contextStore = React.createContext({})
 
 export const ContextProvider = (props: any) => {
-  const [authState, authDispatch] = useReducer(auth, authInitialState);
+  const [authState, authDispatch] = useReducer(auth, authInitialState)
+  const [loading, loadingDispatch] = useReducer(
+    loadingReducer,
+    loadingInitialState,
+  )
 
-  const value = { authState, authDispatch };
+  const value = { authState, authDispatch, loading, loadingDispatch }
   return (
     <contextStore.Provider value={value}>
       {props.children}
     </contextStore.Provider>
-  );
-};
+  )
+}
 
-export const useStore = () => useContext(contextStore);
-
-//action import-> data provider factory -> dispatch actions
-//useCallback-> memoiztation -> functions  // component->useMemo
+export const useStore = () => useContext(contextStore)

@@ -6,8 +6,7 @@ export const auth = (state:any, action: any) => {
       return {
         ...state,
         isAuth: true,
-        username: action.username,
-        token: action.token,
+        token: action.payload,
       };
     case ACTION_TYPES.LOGOUT:
       return {

@@ -1,41 +1,52 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Box from "@material-ui/core/Box";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import routes from "../routes";
+import React from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import AppBar from '@material-ui/core/AppBar'
+import Box from '@material-ui/core/Box'
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
+import routes from '../routes'
+import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles({
   container: {
-    display: "flex",
-    justifyContent: "end",
+    display: 'flex',
+    justifyContent: 'end',
   },
-});
+  width: {
+    width: '90%',
+  },
+  title: {
+    //backgroundColor:'white'
+  },
+})
 
-export const NavBar = React.memo(({ history }: any) => {
-  const classes = useStyles();
+export const NavBar = React.memo(() => {
+  const classes = useStyles()
+  const history = useHistory()
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography>Learning Management System</Typography>
+        <Typography className={classes.width}>
+          Learning Management System
+        </Typography>
         <Box className={classes.container}>
           {routes.map((route: any, index: number) => {
             return (
               <Box key={`${route.path} - ${index}`}>
                 <Button
                   onClick={() => {
-                    history.push(route.path);
+                    history.push(route.path)
                   }}
+                  className={classes.title}
                 >
                   {route.title}
                 </Button>
               </Box>
-            );
+            )
           })}
         </Box>
       </Toolbar>
     </AppBar>
-  );
-});
+  )
+})

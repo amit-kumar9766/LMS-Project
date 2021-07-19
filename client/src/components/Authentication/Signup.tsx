@@ -6,56 +6,55 @@ import {
   Paper,
   TextField,
   Typography,
-} from "@material-ui/core";
-import React, { useState } from "react";
-import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
-import { useStore } from "../../context/contextStore/index";
-import axios from "axios";
+} from '@material-ui/core'
+import React, { useState } from 'react'
+import Link from '@material-ui/core/Link'
+import Grid from '@material-ui/core/Grid'
+import { useStore } from '../../context/contextStore/index'
+import axios from 'axios'
 
 const useStyles = makeStyles({
   title: {
-    paddingTop: "2rem",
-    paddingBottom: "1rem",
+    paddingTop: '2rem',
+    paddingBottom: '1rem',
   },
   grid: {
-    paddingBottom: "1rem",
+    paddingBottom: '1rem',
   },
-});
+})
 
-export const Signup = () => {
-  const classes = useStyles();
-  const { state, dispatch }: any = useStore();
-  const [name, setName] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [disabled, setDisabled] = useState<boolean>(false);
-  const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
+export const Signup = ({ history }: any) => {
+  const classes = useStyles()
+  const { state, dispatch }: any = useStore()
+  const [name, setName] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+  const [email, setEmail] = useState<string>('')
+  const [disabled, setDisabled] = useState<boolean>(false)
+  const [passwordConfirmation, setPasswordConfirmation] = useState<string>('')
 
   const handleSignUp = async (e: any) => {
-    e.preventDefault();
+    e.preventDefault()
     let signObj = {
       name: name,
       email: email,
       password: password,
       passwordConfirmation: passwordConfirmation,
-    };
+    }
     try {
-      setDisabled(true);
+      setDisabled(true)
       const response = await axios.post(
         `http://localhost:5000/api/auth/signup`,
-        signObj
-      );
+        signObj,
+      )
       if (response?.status === 200) {
-        //redirect to login
+        history.push('/login')
       }
     } catch (err) {
-      console.log(err);
-      //dispatch here
+      console.log(err)
     } finally {
-      setDisabled(false);
+      setDisabled(false)
     }
-  };
+  }
 
   return (
     <Container maxWidth="sm">
@@ -142,5 +141,5 @@ export const Signup = () => {
         </form>
       </Box>
     </Container>
-  );
-};
+  )
+}

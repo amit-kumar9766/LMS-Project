@@ -7,46 +7,57 @@ import {
   Paper,
   TextField,
   Typography,
-} from "@material-ui/core";
-import React from "react";
-import { useState } from "react";
-import axios from "axios";
-import { useStore } from "../../context/contextStore/index";
+} from '@material-ui/core'
+import React from 'react'
+import { useState } from 'react'
+import axios from 'axios'
+import { useStore } from '../../context/contextStore/index'
+import { loginAction } from '../../context/actions/authActions'
+import { loadingAction } from '../../context/actions/loadingAction'
+import { Loading } from '../resueable/Loading'
 
 const useStyles = makeStyles({
   title: {
-    paddingTop: "2rem",
-    paddingBottom: "1rem",
+    paddingTop: '2rem',
+    paddingBottom: '1rem',
   },
   grid: {
-    paddingBottom: "1rem",
+    paddingBottom: '1rem',
   },
-});
+})
 
 export const Login = React.memo(() => {
-  const classes = useStyles();
-  const { state, dispatch }: any = useStore();
-  const [disabled, setDisabled] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const classes = useStyles()
+  const { authState, authDispatch }: any = useStore()
+  const { loading, loadingDispatch }: any = useStore()
+  const [disabled, setDisabled] = useState<boolean>(false)
+  const [email, setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+
+  console.log(loading)
 
   const handleLogin = async (event: any) => {
-    event.preventDefault();
-    let loginObj = { email: email, password: password };
+    event.preventDefault()
+    let loginObj = { email: email, password: password }
     try {
-      setDisabled(true);
+      setDisabled(true)
       const response = await axios.post(
         `http://localhost:5000/api/auth/signin`,
-        loginObj
-      );
+        loginObj,
+      )
       if (response?.status === 200) {
+        authDispatch(loginAction(response?.data))
       }
     } catch (err) {
-      console.log(err);
+      console.log(err)
     } finally {
-      setDisabled(false);
+      setDisabled(false)
     }
-  };
+  }
+
+  if (loading.loading) {
+    return <Loading />
+  }
 
   return (
     <>
@@ -95,5 +106,5 @@ export const Login = React.memo(() => {
         </Button>
       </Container>
     </>
-  );
-});
+  )
+})

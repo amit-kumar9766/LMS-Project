@@ -1,10 +1,16 @@
 import * as ACTION_TYPES from "../actions/actionTypes";
 
-export const login = (data: any) => {
+export const registerAction=(payload:any)=>{
+  return {
+    type: ACTION_TYPES.REGISTER,
+    payload:payload
+  }
+}
+
+export const loginAction = (payload:any) => {
   return {
     type: ACTION_TYPES.LOGIN,
-    username: data.username,
-    token: data.token,
+    payload:payload
   };
 };
 
